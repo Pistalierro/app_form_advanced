@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validator
 import {User} from '../../shared/user';
 import {FORM_ERRORS, FORM_LABELS, FORM_PLACEHOLDERS, FORM_SUCCESS, FORM_VALIDATION_MESSAGES, USER} from '../../shared/form-data';
 import {NgIf} from '@angular/common';
+import {emailValidator} from '../../shared/custom-validators';
 
 @Component({
   selector: 'app-form',
@@ -40,6 +41,8 @@ export class FormComponent implements OnInit {
   buildForm(): void {
     this.userForm = this.fb.group({
       name: [this.user.name, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      password: [this.user.password, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
+      email: [this.user.email, [Validators.required, emailValidator]],
     });
     this.userForm.valueChanges.subscribe(() => this.onValueChanges());
   }

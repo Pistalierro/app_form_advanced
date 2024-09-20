@@ -36,9 +36,26 @@ export const FORM_VALIDATION_MESSAGES = {
     minlength: 'Имя должно содержать не менее 3 символов',
     maxlength: 'Имя должно содержать не более 15 символов',
   },
-  password: '',
-  email: '',
-  age: '',
-  site: '',
-  role: ''
+  password: {
+    required: 'Пароль обязателен',
+    minlength: 'Пароль должен содержать не менее 7 символов',
+    maxlength: 'Пароль должен содержать не более 25 символов',
+  },
+  email: {
+    required: 'Email обязателен',
+    emailValidator: 'Неверный формат электронной почты',
+  },
+  age: {
+    required: 'Возраст обязателен',
+    rangeValidator: 'Значение должно быть числом в диапазоне 1...122',
+    minRange: 'Значение меньше 1',
+    maxRange: 'Значение больше 122',
+  },
+  site: {
+    required: 'Сайт обязателен',
+
+  },
+  role: {
+    required: 'Роль обязательна',
+  }
 };
