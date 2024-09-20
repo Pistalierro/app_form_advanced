@@ -1,0 +1,17 @@
+.text-muted {
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  position: relative;
+}
+
+.loading {
+  height: 30px;
+  width: 30px;
+  background-image: url(../../assets/image/tag-team-loading.gif);
+  background-position: 50% 50%;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-25%, calc(-100% - 8px));
+}

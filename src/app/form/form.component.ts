@@ -1,29 +1,31 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import {User} from '../../shared/user';
-import {FORM_ERRORS, FORM_LABELS, FORM_PLACEHOLDERS, FORM_SUCCESS, FORM_VALIDATION_MESSAGES, USER} from '../../shared/form-data';
-import {NgIf} from '@angular/common';
-import {emailValidator} from '../../shared/custom-validators';
+import {FORM_ERRORS, FORM_LABELS, FORM_PLACEHOLDERS, FORM_ROLES, FORM_SUCCESS, FORM_VALIDATION_MESSAGES} from '../../shared/form-data';
+import {NgForOf, NgIf} from '@angular/common';
+import {emailValidator, observableUrlValidator, rangeValidator} from '../../shared/custom-validators';
 
 @Component({
   selector: 'app-form',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    NgForOf
   ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })
 export class FormComponent implements OnInit {
 
-  user: User = USER;
   formLabels = FORM_LABELS;
   formPlaceholders = FORM_PLACEHOLDERS;
   formSuccess = FORM_SUCCESS;
   formErrors: any = FORM_ERRORS;
   validationMessages: any = FORM_VALIDATION_MESSAGES;
+  roles = FORM_ROLES;
 
+  user: User = new User(1, null, null, null, null, null, null);
 
   userForm!: FormGroup;
 
@@ -43,6 +45,9 @@ export class FormComponent implements OnInit {
       name: [this.user.name, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       password: [this.user.password, [Validators.required, Validators.minLength(7), Validators.maxLength(25)]],
       email: [this.user.email, [Validators.required, emailValidator]],
+      age: [this.user.age, [Validators.required, rangeValidator(1, 122)]],
+      site: [this.user.site, [Validators.required], [observableUrlValidator]],
+      role: [this.user.role, Validators.required],
     });
     this.userForm.valueChanges.subscribe(() => this.onValueChanges());
   }
@@ -60,5 +65,10 @@ export class FormComponent implements OnInit {
         Object.keys(control.errors as ValidationErrors).some(key => this.formErrors[field] = messages[key]);
       }
     });
+  }
+
+  onSubmit(): void {
+    console.log(this.userForm.value);
+    console.log(this.userForm.valid);
   }
 }
