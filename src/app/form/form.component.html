@@ -2,7 +2,12 @@
 
   <div class="mb-3">
     <label class="form-label" for="name">{{ formLabels.name }}</label>
-    <input class="form-control" formControlName="name" id="name" placeholder="{{formPlaceholders.name}}" type="text">
+    <input (blur)="onValueChanges()"
+           [class]="{'is-valid':  form['name'].valid,
+                    'is-invalid': form['name'].invalid && (form['name'].dirty || form['name'].touched)}"
+           class="form-control" formControlName="name" id="name" placeholder="{{formPlaceholders.name}}" type="text">
+    <div *ngIf="form['name'].valid" class="valid-feedback">{{ formSuccess }}</div>
+    <div *ngIf="form['name'].invalid && (form['name'].dirty || form['name'].touched)" class="invalid-feedback">{{ formErrors.name }}</div>
   </div>
 
 </form>

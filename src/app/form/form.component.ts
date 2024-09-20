@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import {User} from '../../shared/user';
 import {FORM_ERRORS, FORM_LABELS, FORM_PLACEHOLDERS, FORM_SUCCESS, FORM_VALIDATION_MESSAGES, USER} from '../../shared/form-data';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-form',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
@@ -27,6 +29,10 @@ export class FormComponent implements OnInit {
   constructor(private fb: FormBuilder) {
   }
 
+  get form(): ValidationErrors {
+    return this.userForm.controls;
+  }
+
   ngOnInit() {
     this.buildForm();
   }
@@ -43,12 +49,12 @@ export class FormComponent implements OnInit {
 
     Object.keys(this.formErrors).forEach(field => {
       const control = form.get(field);
-      this.formErrors['field'] = '';
+      this.formErrors[field] = '';
 
       if ((control?.dirty || control?.touched) && control.invalid) {
         const messages = this.validationMessages[field];
 
-        Object.keys(control.errors as ValidationErrors).some(key => this.formErrors['field'] = messages[key]);
+        Object.keys(control.errors as ValidationErrors).some(key => this.formErrors[field] = messages[key]);
       }
     });
   }
